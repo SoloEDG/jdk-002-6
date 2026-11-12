@@ -4,7 +4,7 @@ import { LibraryPanel } from "../features/library";
 import { StageView, TransportBar } from "../features/performance";
 import { JudgmentPanel } from "../features/judgment";
 import { PracticePanel } from "../features/practice";
-import { RecordsPanel } from "../features/records";
+import { RecordsPanel, MissList } from "../features/records";
 import { secondsAt } from "../shared/chart";
 const w = useWorkspace();
 const { library: l, practice: p, judgment: j, records: r, performance: s } = w;
@@ -41,8 +41,12 @@ const { library: l, practice: p, judgment: j, records: r, performance: s } = w;
         /><PracticePanel
           :track="l.selected.value"
           :config="p.config.value"
+          :focus="p.focus.value"
+          :preview="p.pending.value"
           :locked="w.locked.value"
           @update="w.updatePractice"
+          @confirm="w.confirmMiss"
+          @cancel="w.cancelMiss"
         />
       </div>
       <section class="performance panel">
@@ -62,12 +66,14 @@ const { library: l, practice: p, judgment: j, records: r, performance: s } = w;
         <StageView
           :track="l.selected.value"
           :run="s.run.value"
+          :idle-notes="w.idleNotes.value"
           :time="s.time.value"
           :phase="s.phase.value"
           :done="j.done.value"
           :held="j.held.value"
           :feedback="j.feedback.value"
           :combo="j.stats.value.combo"
+          :focus="w.stageFocus.value"
           @down="w.down"
           @up="w.up"
         /><TransportBar
@@ -96,6 +102,13 @@ const { library: l, practice: p, judgment: j, records: r, performance: s } = w;
           :latest="r.latest.value"
           :track-id="l.selectedId.value"
           :warning="r.warning.value"
+        /><MissList
+          :misses="w.misses.value"
+          :source="w.lastShow.value"
+          :available="w.missSource.value !== null"
+          :selected-id="(p.pending.value ?? p.focus.value)?.noteId ?? ''"
+          :locked="w.locked.value"
+          @pick="w.pickMiss"
         />
         <div class="key-guide">
           <span>PLAY GUIDE</span>

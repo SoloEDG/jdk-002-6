@@ -18,5 +18,7 @@ export type Track = {
   melody: number[];
 };
 export const secondsAt = (beat: number, bpm: number) => (beat * 60) / bpm;
+/** 人读的小节号（每 4 拍一小节）。 */
+export const barOf = (beat: number) => Math.floor(beat / 4) + 1;
 export const laneLabels = ["←", "↓", "↑", "→"];
 export const laneKeys = ["ArrowLeft", "ArrowDown", "ArrowUp", "ArrowRight"];

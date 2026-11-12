@@ -437,6 +437,80 @@ main {
 .beat-timeline .outside {
   opacity: 0.15;
 }
+.beat-timeline .pending {
+  background: #bcf366;
+  box-shadow: 0 0 8px #bcf36666;
+}
+.focus-preview {
+  border: 1px solid #66764b;
+  background: #222a1b;
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 18px;
+  font-size: 11px;
+  color: #a9b99a;
+}
+.focus-preview.active {
+  border-color: #3b4730;
+  background: #1f2419;
+}
+.focus-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.focus-head > span {
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #8a947e;
+}
+.focus-head b {
+  color: #d6e3bf;
+  font-weight: 500;
+}
+.focus-head small {
+  margin-left: auto;
+  color: #bcf366;
+  letter-spacing: 3px;
+}
+.focus-range {
+  margin: 10px 0 4px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  color: #8d9683;
+}
+.focus-range b {
+  color: #e3ebd8;
+  font-weight: 500;
+}
+.focus-range span {
+  font-size: 9px;
+  color: #6f7865;
+}
+.focus-caption {
+  margin: 6px 0 0;
+  font-size: 10px;
+  color: #8a9287;
+  line-height: 1.6;
+}
+.focus-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 11px;
+}
+.focus-actions .primary {
+  margin-left: 0;
+  flex: 1;
+}
+.ghost {
+  border: 1px solid #3b3e46;
+  background: #22242b;
+  border-radius: 5px;
+  color: #a5a9b1;
+  padding: 10px 14px;
+  font-size: 11px;
+}
 .range-heading {
   display: flex;
   justify-content: space-between;
@@ -657,6 +731,114 @@ main {
 .chord-note {
   background: #a999ff;
   border-color: #ddd5ff;
+}
+.focus-badge {
+  position: absolute;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #1a1e14e6;
+  border: 1px solid #66764b;
+  border-radius: 20px;
+  padding: 5px 13px;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #9aa98a;
+  pointer-events: none;
+}
+.focus-badge b {
+  color: #bcf366;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.note.focus-note {
+  background: #ff9776;
+  border-color: #ffd2c2;
+  color: #2a1008;
+  box-shadow: 0 0 16px #ff977666;
+  z-index: 3;
+}
+.note.focus-note .tail {
+  background: linear-gradient(#ff977622, #ff977699);
+  border-color: #ff977666;
+}
+.focus-flag {
+  position: absolute;
+  right: -4px;
+  top: -15px;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #ff9776;
+  z-index: 2;
+}
+.misses-hint {
+  margin: 14px 0 0;
+  font-size: 10px;
+  line-height: 1.7;
+  color: #7f878f;
+}
+.misses-empty {
+  margin-top: 18px;
+  font-size: 11px;
+  color: #858d98;
+  line-height: 1.7;
+}
+.miss-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 13px;
+}
+.miss-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  border: 1px solid #33353d;
+  background: #1d1e25;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 10px;
+  color: #9ca2ac;
+}
+.miss-row.selected {
+  border-color: #ff9776;
+  background: #2b211d;
+  color: #ffd2c2;
+}
+.miss-beat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.miss-beat small {
+  font-size: 8px;
+  color: #6f7680;
+}
+.miss-lanes {
+  display: flex;
+  gap: 3px;
+}
+.miss-lanes i {
+  font-style: normal;
+  width: 17px;
+  height: 17px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #4a4d57;
+  border-radius: 3px;
+  font-size: 10px;
+  color: #c4c9d1;
+}
+.miss-hold {
+  font-size: 8px;
+  color: #a999ff;
 }
 .judgment-float {
   position: absolute;

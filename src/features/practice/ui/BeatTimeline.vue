@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import type { Track } from "../../../shared/chart";
-defineProps<{ track: Track; start: number; end: number }>();
+defineProps<{
+  track: Track;
+  start: number;
+  end: number;
+  preview?: boolean;
+}>();
 </script>
 <template>
   <div class="beat-timeline" aria-label="谱面密度预览">
     <span
       v-for="bar in 16"
       :key="bar"
-      :class="{ outside: (bar - 1) * 4 < start || (bar - 1) * 4 >= end }"
+      :class="{
+        outside: (bar - 1) * 4 < start || (bar - 1) * 4 >= end,
+        pending: preview && (bar - 1) * 4 >= start && (bar - 1) * 4 < end,
+      }"
       :style="{
         height:
           12 +

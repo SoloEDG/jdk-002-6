@@ -1,28 +1,36 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import type { Track, Lane } from "../../../shared/chart";
-import type { Phase, Run } from "../../../shared/session";
-import { laneLabels } from "../../../shared/chart";
+import type { Note, Track, Lane } from "../../../shared/chart";
+import type { Phase, PracticeFocus, Run } from "../../../shared/session";
+import { barOf, laneLabels } from "../../../shared/chart";
 import { noteY, tailHeight, visibleNotes } from "../lib/geometry";
 const props = defineProps<{
   track: Track;
   run: Run | null;
+  idleNotes: Note[];
   time: number;
   phase: Phase;
   done: Set<string>;
   held: Set<Lane>;
   feedback: string;
   combo: number;
+  focus?: PracticeFocus | null;
 }>();
 defineEmits<{ down: [lane: Lane]; up: [lane: Lane] }>();
 const notes = computed(() =>
   visibleNotes(
-    props.run?.notes ?? props.track.notes,
+    props.run?.notes ?? props.idleNotes,
     props.time,
     props.track.bpm,
     props.done,
   ),
 );
+/** 只在由漏音发起的练习片段中突出该漏音，正式演出保持原样。 */
+const focusNote = computed(() => {
+  const run = props.run;
+  if (!run?.practice || !props.focus) return null;
+  return run.notes.find((n) => n.id === props.focus!.noteId) ?? null;
+});
 </script>
 <template>
   <div class="stage">
@@ -31,6 +39,13 @@ const notes = computed(() =>
       <span v-for="label in laneLabels" :key="label">{{ label }}</span>
     </div>
     <div class="lane-lines"><i v-for="i in 5" :key="i"></i></div>
+    <div v-if="focus && phase !== 'finished'" class="focus-badge">
+      <span>漏音目标</span>
+      <b
+        >第 {{ barOf(focus.beat) }} 小节 ·
+        {{ focus.lanes.map((l) => laneLabels[l]).join(" ") }}</b
+      >
+    </div>
     <div v-if="phase === 'ready'" class="stage-message">
       <div class="stage-symbol">⌁</div>
       <h3>READY TO FEEL?</h3>
@@ -53,6 +68,7 @@ const notes = computed(() =>
         :class="{
           'hold-note': n.duration > 0,
           'chord-note': n.lanes.length > 1,
+          'focus-note': n.id === focusNote?.id,
         }"
         :style="{
           left: lane * 25 + 2 + '%',
@@ -65,6 +81,7 @@ const notes = computed(() =>
           :style="{ height: tailHeight(n, track.bpm) + 'px' }"
         ></div>
         <b>{{ laneLabels[lane] }}</b>
+        <span v-if="n.id === focusNote?.id" class="focus-flag">MISS</span>
       </div></template
     >
     <div v-if="phase === 'playing'" class="judgment-float">
